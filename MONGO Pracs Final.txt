@@ -1,0 +1,1033 @@
+PRAC 10).
+Create Employee collection by considering following Fields:
+i. Name: Embedded Doc (FName, LName)
+ii. Company Name: String
+iii. Salary: Number
+iv. Designation: String
+v. Age: Number
+vi. Expertise: Array
+vii. DOB: String or Date
+viii. Email id: String
+ix. Contact: String
+x. Address: Array of Embedded Doc (PAddr, LAddr)
+Insert at least 5 documents in collection by considering above
+attribute and execute following queries:
+SOLUTION:
+27017> use emp_db
+switched to db emp_db
+emp_db> db.Employee.insertMany([
+... {
+...
+
+Name: { FName: 'Kesar', LName: 'Tank' },
+
+...
+
+Comp_name:"Infosys",
+
+...
+
+Salary:25000,
+
+...
+
+Designation:"Programmer",
+
+...
+
+Age:32,
+
+...
+
+DOB: '28-03-95',
+
+...
+
+Expertise: [ 'MongoDB', 'Mysql', 'Cassandra' ],
+
+...
+
+Email_ID: 'xyz@gmail.com',
+
+...
+
+Contact: '9373673673',
+
+...
+
+Addr:[ { PAddr: 'Gujarat', LAddr: 'Pune' }],
+
+... },
+... {
+
+...
+
+Name: { FName: 'Sanchayita', LName: 'Gaikwad' },
+
+...
+
+Comp_name:"TechM",
+
+...
+
+Salary:25000,
+
+...
+
+Designation:"Developer",
+
+...
+
+Age:29,
+
+...
+
+Expertise: [ 'MongoDB', 'Mysql', 'Java' ],
+
+...
+
+DOB: '11-01-98',
+
+...
+
+Email_ID: 'pqr@gmail.com',
+
+...
+
+Contact: '8888860601',
+
+...
+
+Addr: [{ PAddr: 'Aurangabad', LAddr: 'Mumbai' }],
+
+... },
+... {
+...
+
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+
+...
+
+Comp_name:"Infosys",
+
+...
+
+Salary:32000,
+
+...
+
+Designation:"Programmer",
+
+...
+
+Age:35,
+
+...
+
+Expertise: [ 'MongoDB', 'Java' ],
+
+...
+
+DOB: '01-11-95',
+
+...
+
+Email_ID: 'lmn@gmail.com',
+
+...
+
+Contact: '8565479512',
+
+...
+
+Addr: [{ PAddr: 'Kolhapur', LAddr: 'Pune' }],
+
+... }])
+{
+acknowledged: true,
+insertedIds: {
+'0': ObjectId("6558a11c83a19cbcfd2b007d"),
+'1': ObjectId("6558a11c83a19cbcfd2b007e"),
+'2': ObjectId("6558a11c83a19cbcfd2b007f")
+}
+}
+
+emp_db> db.Employee.insertOne(
+{
+Name: { FName: 'Kaustubh', LName: 'Warade' },
+Comp_name: "TCS",
+Salary: 30000,
+Designation: "Programmer",
+Age: 26,
+Expertise: ['Java', 'Spring', 'Hibernate'],
+DOB: '20-09-99',
+Email_ID: 'efg@gmail.com',
+Contact: '9745853215',
+Addr: [{ PAddr: 'Pune', LAddr: 'Akurdi' }]
+})
+{
+acknowledged: true,
+insertedId: ObjectId("6558a32183a19cbcfd2b0080")
+}
+emp_db> db.Employee.find().pretty()
+[
+{
+_id: ObjectId("65589b194cf45996de8528e2"),
+Name: { FName: 'Diksha', LName: 'Dhumal' },
+Comp_name: 'TCS',
+Salary: 10000,
+Designation: 'Tester',
+Age: 30,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '19-09-99',
+Email_ID: 'abc@gmail.com',
+Contact: '9796796791',
+Address: [ { PAddr: 'Pune', LAddr: 'Mumbai' } ]
+
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007d"),
+Name: { FName: 'Kesar', LName: 'Tank' },
+Comp_name: 'Infosys',
+Salary: 25000,
+Designation: 'Programmer',
+Age: 32,
+DOB: '28-03-95',
+Expertise: [ 'MongoDB', 'Mysql', 'Cassandra' ],
+Email_ID: 'xyz@gmail.com',
+Contact: '9373673673',
+Addr: { PAddr: 'Gujarat', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007e"),
+Name: { FName: 'Sanchayita', LName: 'Gaikwad' },
+Comp_name: 'TechM',
+Salary: 25000,
+Designation: 'Developer',
+Age: 29,
+Expertise: [ 'MongoDB', 'Mysql', 'Java' ],
+DOB: '11-01-98',
+Email_ID: 'pqr@gmail.com',
+Contact: '8888860601',
+Addr: { PAddr: 'Aurangabad', LAddr: 'Mumbai' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007f"),
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+Comp_name: 'Infosys',
+
+Salary: 32000,
+Designation: 'Programmer',
+Age: 35,
+Expertise: [ 'MongoDB', 'Java' ],
+DOB: '01-11-95',
+Email_ID: 'lmn@gmail.com',
+Contact: '8565479512',
+Addr: { PAddr: 'Kolhapur', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a32183a19cbcfd2b0080"),
+Name: { FName: 'Kaustubh', LName: 'Warade' },
+Comp_name: 'TCS',
+Salary: 30000,
+Designation: 'Programmer',
+Age: 26,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '20-09-99',
+Email_ID: 'efg@gmail.com',
+Contact: '9745853215',
+Addr: { PAddr: 'Pune', LAddr: 'Akurdi' }
+}
+]
+1. Select all documents where the Designation field has the value "Programmer" and the value
+of the salary field is greater than 30000.
+>> emp_db> db.Employee.find({Designation:"Programmer",Salary:{$gt:30000}})
+[
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007f"),
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+Comp_name: 'Infosys',
+Salary: 32000,
+Designation: 'Programmer',
+Age: 35,
+Expertise: [ 'MongoDB', 'Java' ],
+
+DOB: '01-11-95',
+Email_ID: 'lmn@gmail.com',
+Contact: '8565479512',
+Addr: { PAddr: 'Kolhapur', LAddr: 'Pune' }
+}
+]
+2. Creates a new document if no document in the employee collection contains {Designation:
+"Tester", Company_name: "TCS", Age: 25}
+>> emp_db> db.Employee.insertOne( { Name: { FName: 'Rohan', LName: 'Patil' },
+Comp_name: "TCS", Salary: 30000, Designation: "Tester", Age: 25, Expertise: ['Java', 'Spring',
+'Hibernate'], DOB: '14-04-95', Email_ID: 'uvw@gmail.com', Contact: '9745853246', Addr: {
+PAddr: 'Parbhani', LAddr: 'Akurdi' } })
+{
+acknowledged: true,
+insertedId: ObjectId("6558a8cc83a19cbcfd2b0081")
+}
+3. Increase salary of each Employee working with “Infosys" 10000.
+>> emp_db> db.Employee.updateMany({Comp_name:"Infosys"},{$inc:{Salary:10000}})
+{
+acknowledged: true,
+insertedId: null,
+matchedCount: 2,
+modifiedCount: 2,
+upsertedCount: 0
+}
+emp_db> db.Employee.find({Comp_name:"Infosys"})
+[
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007d"),
+Name: { FName: 'Kesar', LName: 'Tank' },
+Comp_name: 'Infosys',
+Salary: 35000,
+Designation: 'Programmer',
+Age: 32,
+DOB: '28-03-95',
+Expertise: [ 'MongoDB', 'Mysql', 'Cassandra' ],
+Email_ID: 'xyz@gmail.com',
+Contact: '9373673673',
+Addr: { PAddr: 'Gujarat', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007f"),
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+Comp_name: 'Infosys',
+Salary: 42000,
+Designation: 'Programmer',
+Age: 35,
+Expertise: [ 'MongoDB', 'Java' ],
+
+DOB: '01-11-95',
+Email_ID: 'lmn@gmail.com',
+Contact: '8565479512',
+Addr: { PAddr: 'Kolhapur', LAddr: 'Pune' }
+}
+]
+4. Finds all employees working with "TCS" and reduce their salary by 5000.
+>> emp_db> db.Employee.updateMany({Comp_name:"TCS"},{$inc:{Salary:-5000}})
+{
+acknowledged: true,
+insertedId: null,
+matchedCount: 3,
+modifiedCount: 3,
+upsertedCount: 0
+}
+5. Return documents where Designation is not equal to "Tester".
+>> emp_db> db.Employee.find({Designation:{$ne: "Tester"}}).pretty()
+[
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007d"),
+Name: { FName: 'Kesar', LName: 'Tank' },
+Comp_name: 'Infosys',
+Salary: 35000,
+Designation: 'Programmer',
+Age: 32,
+DOB: '28-03-95',
+Expertise: [ 'MongoDB', 'Mysql', 'Cassandra' ],
+Email_ID: 'xyz@gmail.com',
+Contact: '9373673673',
+Addr: { PAddr: 'Gujarat', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007e"),
+Name: { FName: 'Sanchayita', LName: 'Gaikwad' },
+Comp_name: 'TechM',
+Salary: 25000,
+Designation: 'Developer',
+Age: 29,
+Expertise: [ 'MongoDB', 'Mysql', 'Java' ],
+DOB: '11-01-98',
+Email_ID: 'pqr@gmail.com',
+Contact: '8888860601',
+Addr: { PAddr: 'Aurangabad', LAddr: 'Mumbai' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007f"),
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+Comp_name: 'Infosys',
+
+Salary: 42000,
+Designation: 'Programmer',
+Age: 35,
+Expertise: [ 'MongoDB', 'Java' ],
+DOB: '01-11-95',
+Email_ID: 'lmn@gmail.com',
+Contact: '8565479512',
+Addr: { PAddr: 'Kolhapur', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a32183a19cbcfd2b0080"),
+Name: { FName: 'Kaustubh', LName: 'Warade' },
+Comp_name: 'TCS',
+Salary: 25000,
+Designation: 'Programmer',
+Age: 26,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '20-09-99',
+Email_ID: 'efg@gmail.com',
+Contact: '9745853215',
+Addr: { PAddr: 'Pune', LAddr: 'Akurdi' }
+}
+]
+6. Find all employee with Exact Match on an Array having Expertise:
+['Mongodb','Mysql','Cassandra']
+>> emp_db> db.Employee.find({ Expertise: ['Mongodb', 'Mysql', 'Cassandra'] });
+PRAC 11).
+Solution:
+1. Final name of Employee where age is less than 30 and salary more than 50000.
+>> db.Employee.find({Age:{$lt: 30},Salary:{$gt:50000}},{'Name.FName':1,
+'Name.LName': 1, '_id':0})
+2. Selects all documents in the collection where the field age has a value less than 30 or the
+value of the salary field is greater than 40000.
+>> emp_db> db.Employee.find({$or:[{Age:{$lt:30}},{Salary:{$gt:40000}}]})
+[
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007e"),
+Name: { FName: 'Sanchayita', LName: 'Gaikwad' },
+Comp_name: 'TechM',
+Salary: 25000,
+Designation: 'Developer',
+Age: 29,
+Expertise: [ 'MongoDB', 'Mysql', 'Java' ],
+DOB: '11-01-98',
+Email_ID: 'pqr@gmail.com',
+Contact: '8888860601',
+
+Addr: { PAddr: 'Aurangabad', LAddr: 'Mumbai' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007f"),
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+Comp_name: 'Infosys',
+Salary: 42000,
+Designation: 'Programmer',
+Age: 35,
+Expertise: [ 'MongoDB', 'Java' ],
+DOB: '01-11-95',
+Email_ID: 'lmn@gmail.com',
+Contact: '8565479512',
+Addr: { PAddr: 'Kolhapur', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a32183a19cbcfd2b0080"),
+Name: { FName: 'Kaustubh', LName: 'Warade' },
+Comp_name: 'TCS',
+Salary: 25000,
+Designation: 'Programmer',
+Age: 26,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '20-09-99',
+Email_ID: 'efg@gmail.com',
+Contact: '9745853215',
+Addr: { PAddr: 'Pune', LAddr: 'Akurdi' }
+},
+{
+_id: ObjectId("6558a8cc83a19cbcfd2b0081"),
+Name: { FName: 'Rohan', LName: 'Patil' },
+Comp_name: 'TCS',
+Salary: 25000,
+Designation: 'Tester',
+Age: 25,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '14-04-95',
+Email_ID: 'uvw@gmail.com',
+Contact: '9745853246',
+Addr: { PAddr: 'Parbhani', LAddr: 'Akurdi' }
+}
+]
+3. Find documents where Designation is not equal to "Developer".
+>> emp_db> db.Employee.find({Designation:{$ne: "Developer"}}).pretty()
+[
+{
+_id: ObjectId("65589b194cf45996de8528e2"),
+Name: { FName: 'Diksha', LName: 'Dhumal' },
+
+Comp_name: 'TCS',
+Salary: 5000,
+Designation: 'Tester',
+Age: 30,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '19-09-99',
+Email_ID: 'abc@gmail.com',
+Contact: '9796796791',
+Address: [ { PAddr: 'Pune', LAddr: 'Mumbai' } ]
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007d"),
+Name: { FName: 'Kesar', LName: 'Tank' },
+Comp_name: 'Infosys',
+Salary: 35000,
+Designation: 'Programmer',
+Age: 32,
+DOB: '28-03-95',
+Expertise: [ 'MongoDB', 'Mysql', 'Cassandra' ],
+Email_ID: 'xyz@gmail.com',
+Contact: '9373673673',
+Addr: { PAddr: 'Gujarat', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007f"),
+Name: { FName: 'Samruddhi', LName: 'Magdum' },
+Comp_name: 'Infosys',
+Salary: 42000,
+Designation: 'Programmer',
+Age: 35,
+Expertise: [ 'MongoDB', 'Java' ],
+DOB: '01-11-95',
+Email_ID: 'lmn@gmail.com',
+Contact: '8565479512',
+Addr: { PAddr: 'Kolhapur', LAddr: 'Pune' }
+},
+{
+_id: ObjectId("6558a32183a19cbcfd2b0080"),
+Name: { FName: 'Kaustubh', LName: 'Warade' },
+Comp_name: 'TCS',
+Salary: 25000,
+Designation: 'Programmer',
+Age: 26,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '20-09-99',
+Email_ID: 'efg@gmail.com',
+Contact: '9745853215',
+Addr: { PAddr: 'Pune', LAddr: 'Akurdi' }
+
+},
+{
+_id: ObjectId("6558a8cc83a19cbcfd2b0081"),
+Name: { FName: 'Rohan', LName: 'Patil' },
+Comp_name: 'TCS',
+Salary: 25000,
+Designation: 'Tester',
+Age: 25,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '14-04-95',
+Email_ID: 'uvw@gmail.com',
+Contact: '9745853246',
+Addr: { PAddr: 'Parbhani', LAddr: 'Akurdi' }
+}
+]
+4. Find _id, Designation, Address and Name from all documents where Company_name is
+"Infosys".
+>> emp_db> db.Employee.find({ CompanyName: "Infosys" }, { _id: 1, Designation: 1,
+Address: 1, "Name.FName": 1, "Name.LName": 1 });
+5. Display only FName and LName of all Employees.
+>> emp_db> db.Employee.find({}, { "Name.FName": 1, "Name.LName": 1, _id: 0 })
+[
+{ Name: { FName: 'Diksha', LName: 'Dhumal' } },
+{ Name: { FName: 'Kesar', LName: 'Tank' } },
+{ Name: { FName: 'Sanchayita', LName: 'Gaikwad' } },
+{ Name: { FName: 'Samruddhi', LName: 'Magdum' } },
+{ Name: { FName: 'Kaustubh', LName: 'Warade' } },
+{ Name: { FName: 'Rohan', LName: 'Patil' } }
+]
+6. Finds all employees working with Company_name: "TCS" and increase their salary by
+2000.
+>> emp_db> db.Employee.updateMany(
+... { CompanyName: "TCS" },
+... { $inc: { Salary: 2000 } }
+... );
+{
+acknowledged: true,
+insertedId: null,
+matchedCount: 0,
+modifiedCount: 0,
+upsertedCount: 0
+}
+
+7. Matches all documents where the value of the field Address is an embedded document
+that contains only the field city with the value "Pune" and the field Pin_code with the
+value "411001".
+>> db.Employee.find({ "Address": { $elemMatch: { "City": "Pune", "Pin_code": "411001" }
+} });
+8. Find employee details who are working as "Developer" or "Tester"
+>> db.Employee.find({ Designation: { $in: ["Developer", "Tester"] } });
+[
+{
+_id: ObjectId("65589b194cf45996de8528e2"),
+Name: { FName: 'Diksha', LName: 'Dhumal' },
+Comp_name: 'TCS',
+Salary: 5000,
+Designation: 'Tester',
+Age: 30,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '19-09-99',
+Email_ID: 'abc@gmail.com',
+Contact: '9796796791',
+Address: [ { PAddr: 'Pune', LAddr: 'Mumbai' } ]
+},
+{
+_id: ObjectId("6558a11c83a19cbcfd2b007e"),
+Name: { FName: 'Sanchayita', LName: 'Gaikwad' },
+Comp_name: 'TechM',
+Salary: 25000,
+Designation: 'Developer',
+Age: 29,
+Expertise: [ 'MongoDB', 'Mysql', 'Java' ],
+DOB: '11-01-98',
+Email_ID: 'pqr@gmail.com',
+Contact: '8888860601',
+Addr: { PAddr: 'Aurangabad', LAddr: 'Mumbai' }
+},
+{
+_id: ObjectId("6558a8cc83a19cbcfd2b0081"),
+Name: { FName: 'Rohan', LName: 'Patil' },
+Comp_name: 'TCS',
+Salary: 25000,
+Designation: 'Tester',
+Age: 25,
+Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+DOB: '14-04-95',
+Email_ID: 'uvw@gmail.com',
+Contact: '9745853246',
+Addr: { PAddr: 'Parbhani', LAddr: 'Akurdi' }
+}
+
+]
+9. Drop Single documents where designation="Developer".
+>> db.Employee.deleteOne({ Designation: "Developer" });
+{ acknowledged: true, deletedCount: 1 }
+10. Count number of documents in employee collection.
+>> db.Employee.countDocuments();
+5
+11. Finds all employees working with Company_name: "TCS" and increase their salary by
+2000.
+>> emp_db> db.Employee.updateMany(
+... { CompanyName: "TCS" },
+... { $inc: { Salary: 2000 } }
+... );
+{
+acknowledged: true,
+insertedId: null,
+matchedCount: 0,
+modifiedCount: 0,
+upsertedCount: 0
+}
+PRAC 12).
+Design and Develop MongoDB Queries using Aggregation operations:
+Create Employee collection by considering following Fields:
+i. Emp_id : Number
+ii. Name: Embedded Doc (FName, LName)
+iii. Company Name: String
+iv. Salary: Number
+v. Designation: String
+vi. Age: Number
+vii. Expertise: Array
+viii. DOB: String or Date
+ix. Email id: String
+x. Contact: String
+xi. Address: Array of Embedded Doc (PAddr, LAddr)
+Insert at least 5 documents in collection by considering above
+attribute and execute following:
+Solution:
+emp_db> use emp1_db
+switched to db emp1_db
+emp1_db> db.Employee.insertMany([
+... {
+... Emp_id: 101,
+... Name: { FName: 'Kesar', LName: 'Tank' },
+... Comp_name:"Infosys",
+
+... Salary:30000,
+... Designation:"DBA",
+... Age:32,
+... Expertise: [ 'Java', 'Spring', 'Hibernate' ],
+... DOB: '19-09-99',
+... Email_ID: 'abc@gmail.com',
+... Contact: '9796796791',
+... Addr: [{ PAddr: 'Parbhani', LAddr: 'Akurdi' }]
+... },
+... {
+... Emp_id: 102,
+... Name: { FName: 'Diksha', LName: 'Dhumal' },
+... Comp_name:"TCS",
+... Salary:300000,
+... Designation:"Programmer",
+... Age:22,
+... Expertise: ['Spring', 'Hibernate' ],
+... DOB: '20-07-2001',
+... Email_ID: 'xyz@gmail.com',
+... Contact: '9373673673',
+... Addr: [{ PAddr: 'Pune', LAddr: 'Bangalore' }]
+... },
+... {
+... Name: { FName: 'Kaustubh', LName: 'Warade' },
+... Comp_name:"TCS",
+... Emp_id: 103,
+... Salary:40000,
+... Designation:"Programmer",
+... Age:25,
+... Expertise: ['Java','Spring', 'Hibernate' ],
+... DOB: '19-07-1996',
+... Email_ID: 'pqr@gmail.com',
+... Contact: '9822447979',
+... Addr: [{ PAddr: 'Mumbai', LAddr: 'Pune' }]
+... },
+... {
+... Emp_id: 104,
+... Name: { FName: 'Sakshi', LName: 'Dahale' },
+... Comp_name:"Infosys",
+... Salary:50000,
+... Designation:"Tester",
+... Age:35,
+... Expertise: ['Java','Spring' ],
+... DOB: '09-08-1998',
+... Email_ID: 'lmn@gmail.com',
+... Contact: '9860673673',
+... Addr: [{ PAddr: 'Pune', LAddr: 'Mumbai' }]
+... },
+
+... {
+... Emp_id: 105,
+... Name: { FName: 'Rohan', LName: 'Patil' },
+... Comp_name:"TCS",
+... Salary:80000,
+... Designation:"DBA",
+... Age:30,
+... Expertise: ['Java','Spring','Ruby' ],
+... DOB: '23-05-1990',
+... Email_ID: 'uvw@gmail.com',
+... Contact: '8308673673',
+... Addr: [{ PAddr: 'Kolhapur', LAddr: 'Pune' }]
+... }
+... ])
+{
+acknowledged: true,
+insertedIds: {
+'0': ObjectId("6558ceee83a19cbcfd2b0082"),
+'1': ObjectId("6558ceee83a19cbcfd2b0083"),
+'2': ObjectId("6558ceee83a19cbcfd2b0084"),
+'3': ObjectId("6558ceee83a19cbcfd2b0085"),
+'4': ObjectId("6558ceee83a19cbcfd2b0086")
+}
+}
+1. Using aggregation Return Designation with Total Salary is
+Above 200000.
+>> emp1_db> db.Employee.aggregate([
+{
+$group: { _
+id: "$Designation",
+total_salary: { $sum: "$Salary" }
+}
+},
+{
+$match: {
+total_salary: { $gt: 200000 }
+}
+},
+{ $project:
+{
+Designation: "$_id",
+
+total_salary: 1,
+_id: 0
+}
+}] )
+[ { total_salary: 340000, Designation: 'Programmer' } ]
+2. Using Aggregate method returns names and _id in upper case and
+in alphabetical order.
+>> emp1_db> db.Employee.aggregate([
+... {
+... $project: {
+...
+_id: 1,
+...
+upperCaseName: {
+...
+$toUpper: {
+...
+$concat: ["$Name.FName", " ", "$Name.LName"]
+...
+}
+...
+}
+... }
+... },
+... {
+... $sort: {
+...
+upperCaseName: 1
+... }
+... }
+... ]);
+[
+{
+_id: ObjectId("6558ceee83a19cbcfd2b0083"),
+upperCaseName: 'DIKSHA DHUMAL'
+},
+{
+_id: ObjectId("6558ceee83a19cbcfd2b0084"),
+upperCaseName: 'KAUSTUBH WARADE'
+},
+{
+_id: ObjectId("6558ceee83a19cbcfd2b0082"),
+upperCaseName: 'KESAR TANK'
+},
+{
+_id: ObjectId("6558ceee83a19cbcfd2b0086"),
+upperCaseName: 'ROHAN PATIL'
+},
+{
+_id: ObjectId("6558ceee83a19cbcfd2b0085"),
+upperCaseName: 'SAKSHI DAHALE'
+}
+
+]
+3. Using aggregation method find Employee with Total Salary for
+Each City with Designation="DBA".
+>> emp1_db> db.Employee.aggregate([
+... {
+... $match: {
+...
+Designation: "DBA"
+... }
+... },
+... {
+... $group: {
+...
+_id: { City: "$Addr.PAddr" },
+... totalSalary: { $sum: "$Salary" }
+... }
+... },
+... {
+... $project: {
+...
+City: "$_id.City",
+...
+totalSalary: 1,
+...
+_id: 0
+... }
+... }
+... ]);
+[
+{ totalSalary: 30000, City: [ 'Parbhani' ] },
+{ totalSalary: 80000, City: [ 'Kolhapur' ] }
+]
+4. Create Single Field Indexes on Designation field of employee
+Collection
+>> emp1_db> db.Employee.createIndex({ Designation: 1 });
+Designation_1
+5. To Create Multikey Indexes on Expertise field of employee
+collection.
+>> emp1_db> db.Employee.createIndex({ Expertise: 1 });
+Expertise_1
+6. Create an Index on Emp_id field, compare the time require to
+search Emp_id before and after creating an index. (Hint Add at
+least 10000 Documents)
+>> var startTime = new Date();
+db.Employee.find({ Emp_id: 5000 });
+var endTime = new Date();
+print("Time without index: " + (endTime - startTime) + "ms");
+// Create Index
+db.Employee.createIndex({ Emp_id: 1 });
+
+// After creating index
+var startTimeIndexed = new Date();
+db.Employee.find({ Emp_id: 5000 });
+var endTimeIndexed = new Date();
+print("Time with index: " + (endTimeIndexed - startTimeIndexed) + "ms");
+7.Return a List of Indexes on created on employee Collection.
+>> emp1_db> db.Employee.getIndexes()
+[
+{ v: 2, key: { _id: 1 }, name: '_id_' },
+{ v: 2, key: { Designation: 1 }, name: 'Designation_1' },
+{ v: 2, key: { Expertise: 1 }, name: 'Expertise_1' }
+]
+PRAC 13).
+1. Using aggregation Return separates value in the Expertise array and return sum of each
+element of array.
+>> emp1_db> db.Employee.aggregate([
+... { $unwind: "$Expertise" },
+... {
+... $group: {
+...
+_id: "$Expertise",
+...
+total: { $sum: 1 }
+... }
+... }
+... ]);
+[
+{ _id: 'Hibernate', total: 3 },
+{ _id: 'Ruby', total: 1 },
+{ _id: 'Java', total: 4 },
+{ _id: 'Spring', total: 5 }
+]
+2. Using Aggregate method return Max and Min Salary for each company.
+>> emp1_db> db.Employee.aggregate([
+... {
+... $group:{
+...
+_id:"$Comp_name",
+...
+max_salary:{$max:"$Salary"},
+...
+min_salary:{$min:"$Salary"},
+...
+}
+... }
+... ])
+[
+{ _id: 'Infosys', max_salary: 50000, min_salary: 30000 },
+{ _id: 'TCS', max_salary: 300000, min_salary: 40000 }
+]
+
+3. Using aggregation method Return separates value in the Expertise array for employee
+name where Swapnil Jadhav.
+>> db.Employee.aggregate([
+{
+$match: {
+"Name.FName": "Kesar",
+"Name.LName": "Tank"
+}
+},
+{ $unwind: "$Expertise" },
+{
+$group: {
+_id: "$Name",
+expertise: { $push: "$Expertise" }
+}
+}
+]);
+emp1_db> db.Employee.aggregate([
+... {
+... $match: {
+...
+"Name.FName": "Kesar",
+...
+"Name.LName": "Tank"
+... }
+... },
+... { $unwind: "$Expertise" },
+... {
+... $group: {
+...
+_id: "$Name",
+...
+expertise: { $push: "$Expertise" }
+... }
+... }
+... ]);
+[
+{
+_id: { FName: 'Kesar', LName: 'Tank' },
+expertise: [ 'Java', 'Spring', 'Hibernate' ]
+}
+]
+4. To Create Compound Indexes on Name: 1, Age: -1
+>> emp1_db> db.Employee.createIndex({"Name":1,"Age":-1})
+Name_1_Age_-1
+PRAC 14).
+Design MongoDB database and perform following Map reduce
+
+operation:
+Create Employee collection by considering following Fields:
+i. Name: Embedded Doc (FName, LName)
+ii. Company Name: String
+iii. Salary: Number
+iv. Designation: String
+v. Age: Number
+vi. Expertise: Array
+vii. DOB: String or Date
+viii. Email id: String
+ix. Contact: String
+x. Address: Array of Embedded Doc (PAddr, LAddr)
+Execute the following query:
+1. Display the total salary of per company.
+emp_db> var mapFunction1 = function() {
+... emit(this.CompanyName, this.Salary);
+... };
+emp_db> var mapFunction1 = function() {
+... emit(this.Comp_Name, this.Salary);
+... };
+emp_db> var reduceFunction1 = function(key, values) {
+... return Array.sum(values);
+... };
+emp_db> db.Employee.mapReduce(
+... mapFunction1,
+... reduceFunction1,
+... { out: "totalSalaryPerCompany" }
+... );
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://docs.mongodb.com/manual/core/map-reduce for details.
+{ result: 'totalSalaryPerCompany', ok: 1 }
+2. Display the total salary of company Name:"TCS"
+emp_db> var mapFunction2 = function() {
+... emit("TCS", this.Salary);
+... };
+emp_db>
+
+emp_db> var reduceFunction2 = function(key, values) {
+... return Array.sum(values);
+... };
+emp_db>
+emp_db> db.Employee.mapReduce(
+... mapFunction2,
+... reduceFunction2,
+... { out: "totalSalaryForTCS" }
+... );
+{ result: 'totalSalaryForTCS', ok: 1 }
+emp_db> db.totalSalaryForTCS.find()
+[ { _id: 'TCS', value: 132000 } ]
+3. Return the average salary of company whose address is “Pune".
+var mapFunction3 = function() {
+emit(this.Comp_name, { totalSalary: this.Salary, count: 1 });
+};
+var reduceFunction3 = function(key, values) {
+var result = { totalSalary: 0, count: 0 };
+values.forEach(function(value) {
+result.totalSalary += value.totalSalary;
+result.count += value.count;
+});
+return result;
+};
+var finalizeFunction3 = function(key, reducedValue) {
+return reducedValue.totalSalary / reducedValue.count;
+};
+db.Employee.mapReduce(
+mapFunction3,
+reduceFunction3,
+{ out: "averageSalaryByCompany", finalize: finalizeFunction3 }
+);
+4. Display total count for “City=Pune”
+emp_db> var mapFunction4 = function() {
+... emit("Pune", 1);
+... };
+emp_db>
+emp_db> var reduceFunction4 = function(key, values) {
+
+... return Array.sum(values);
+... };
+emp_db>
+emp_db> db.Employee.mapReduce(
+... mapFunction4,
+... reduceFunction4,
+... { out: "totalCountForPune" }
+... );
+{ result: 'totalCountForPune', ok: 1 }
+emp_db> db.totalCountForPune.find()
+[ { _id: 'Pune', value: 5 } ]
+5. Return count for city pune and age greater than 40.
+emp_db> var mapFunction5 = function() {
+... if (this.Address && this.Address.length > 0 && this.Address[0].City === "Pune" &&
+this.Age > 40) {
+... emit("Pune_AgeGreaterThan40", 1);
+... }
+... };
+emp_db>
+emp_db> var reduceFunction5 = function(key, values) {
+... return Array.sum(values);
+... };
+emp_db> db.Employee.mapReduce(
+... mapFunction5,
+... reduceFunction5,
+... { out: "countForPuneAgeGreaterThan40" }
+... );
+{ result: 'countForPuneAgeGreaterThan40', ok: 1 }
+emp_db> db.countForPuneAgeGreaterThan40.find()
+
+

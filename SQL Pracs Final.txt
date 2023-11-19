@@ -1,0 +1,952 @@
+DATABASE 1(BANKING)
+PRAC 1).
+Consider following Relation Account(Acc_no, branch_name,balance)
+Branch(branch_name,branch_city,assets) Customer(cust_name,cust_street,cust_city)
+Depositor(cust_name,acc_no) Loan(loan_no,branch_name,amount) Borrower(cust_name,loan_no)
+Create above tables with appropriate constraints like primary key, foreign key, not null etc.
+SOLUTION:
+mysql> create database Bankings;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use Bankings;
+Database changed
+
+mysql> create table Branch(BName varchar(20) primary key, BCity varchar(20), Assets int );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into Branch values("WADIA COLLEGE","PUNE", 150000);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Branch values("NASHIK ROAD","NASHIK", 50000);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Branch values("AKURDI","NIGDI", 100000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Branch values("NAVI MUMBAI","MUMBAI", 60000);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Branch values("SANTA CRUZ","MUMBAI", 155000);
+Query OK, 1 row affected (0.01 sec)
+mysql> select * from Branch;
++---------------+--------+--------+
+| BName
+
+| BCity | Assets |
+
++---------------+--------+--------+
+| AKURDI
+
+| NIGDI | 100000 |
+
+| NASHIK ROAD | NASHIK | 50000 |
+
+| NAVI MUMBAI | MUMBAI | 60000 |
+| SANTA CRUZ | MUMBAI | 155000 |
+| WADIA COLLEGE | PUNE | 150000 |
++---------------+--------+--------+
+5 rows in set (0.00 sec)
+mysql> create table Account(AccNo int primary key, BName varchar(20), Balance int, foreign
+key(BName) references Branch(BName) );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into Account values(101,"AKURDI", 100000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Account values(102,"WADIA COLLEGE", 20000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Account values(103,"SANTA CRUZ", 120000);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Account values(201,"WADIA COLLEGE", 50000);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Account values(202,"WADIA COLLEGE", 150000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Account;
++-------+---------------+---------+
+| AccNo | BName
+
+| Balance |
+
++-------+---------------+---------+
+| 101 | AKURDI
+
+| 100000 |
+
+| 102 | WADIA COLLEGE | 20000 |
+| 103 | SANTA CRUZ | 120000 |
+| 201 | WADIA COLLEGE | 50000 |
+| 202 | WADIA COLLEGE | 150000 |
++-------+---------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> create table Customer(CName varchar(20) primary key, CStreet varchar(20), CCity varchar(20)
+);
+Query OK, 0 rows affected (0.05 sec)
+mysql> insert into Customer values("DIKSHA","WADIA COLLEGE", "PUNE");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into Customer values("KESAR","RASTA PETH", "PUNE");
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Customer values("SAMRUDDHI","WADIA COLLEGE", "PUNE");
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Customer values("SANCHAYITA","SANTA CRUZ", "MUMBAI");
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Customer values("KAUSTUBH","NAVI MUMBAI", "MUMBAI");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Customer;
++------------+---------------+--------+
+| CName
+
+| CStreet
+
+| CCity |
+
++------------+---------------+--------+
+| DIKSHA
+
+| WADIA COLLEGE | PUNE |
+
+| KAUSTUBH | NAVI MUMBAI | MUMBAI |
+| KESAR
+
+| RASTA PETH | PUNE |
+
+| SAMRUDDHI | WADIA COLLEGE | PUNE |
+| SANCHAYITA | SANTA CRUZ | MUMBAI |
++------------+---------------+--------+
+5 rows in set (0.00 sec)
+mysql> create table Depositor(CName varchar(20), AccNo int, foreign key(CName) references
+Customer(CName), foreign key(Accno) references Account(AccNo)
+);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into Depositor values("KESAR", 102);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Depositor values("DIKSHA", 201);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Depositor values("SAMRUDDHI", 202);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Depositor values("SANCHAYITA", 103);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Depositor values("KAUSTUBH", 101);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Depositor;
++------------+-------+
+| CName
+
+| AccNo |
+
++------------+-------+
+| KESAR
+
+| 102 |
+
+| DIKSHA
+
+| 201 |
+
+| SAMRUDDHI | 202 |
+| SANCHAYITA | 103 |
+| KAUSTUBH | 101 |
++------------+-------+
+5 rows in set (0.00 sec)
+mysql> create table Loan(LNo int primary key, BName varchar(20), Amount int, foreign key(BName)
+references Branch(BName));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into Loan values(001, "WADIA COLLEGE", 10000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Loan values(002, "WADIA COLLEGE", 15000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Loan values(003, "NAVI MUMBAI", 20000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Loan values(004, "AKURDI", 5000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Loan values(005, "WADIA COLLEGE", 22000);
+Query OK, 1 row affected (0.00 sec)
+mysql> insert into Loan values(006, "SANTA CRUZ", 12000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Loan;
++-----+---------------+--------+
+| LNo | BName
+
+| Amount |
+
++-----+---------------+--------+
+| 1 | WADIA COLLEGE | 10000 |
+| 2 | WADIA COLLEGE | 15000 |
+| 3 | NAVI MUMBAI | 20000 |
+| 4 | AKURDI
+
+| 5000 |
+
+| 5 | WADIA COLLEGE | 22000 |
+| 6 | SANTA CRUZ | 12000 |
++-----+---------------+--------+
+6 rows in set (0.00 sec)
+mysql> create table Borrower(CName varchar(20), LNo int, foreign key(CName) references
+Customer(CName), foreign key(LNo) references Loan(LNo));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into Borrower values("DIKSHA",001);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Borrower values("KAUSTUBH",005);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Borrower values("SANCHAYITA",003);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Borrower values("KESAR",002);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Borrower values("SAMRUDDHI",004);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from Borrower;
++------------+------+
+| CName
+
+| LNo |
+
++------------+------+
+| DIKSHA
+
+| 1|
+
+| KAUSTUBH | 5 |
+| SANCHAYITA | 3 |
+| KESAR
+
+| 2|
+
+| SAMRUDDHI | 4 |
++------------+------+
+5 rows in set (0.00 sec)
+1. Find the names of all branches in loan relation.
+>> select distinct BName from Loan;
++---------------+
+| BName
+|
++---------------+
+| AKURDI
+|
+| NAVI MUMBAI |
+| SANTA CRUZ |
+| WADIA COLLEGE |
++---------------+
+2. Find all loan numbers for loans made at Wadia College‟ Branch with loan amount > 12000.
+>> select LNo from Loan where BName="WADIA COLLEGE" and Amount>12000;
++-----+
+| LNo |
++-----+
+| 2|
+| 5|
++-----+
+3. Find all customers who have a loan from bank. Find their names,loan_no and loan amount.
+>>SELECT C.CName, L.LNo, L.Amount
+-> FROM Customer C
+-> JOIN Borrower B ON C.CName = B.CName
+-> JOIN Loan L ON B.LNo=L.LNo;
+
++------------+-----+--------+
+| CName | LNo | Amount |
++------------+-----+--------+
+| DIKSHA | 1 | 10000 |
+| KAUSTUBH | 5 | 22000 |
+| KESAR | 2 | 15000 |
+| SAMRUDDHI | 4 | 5000 |
+| SANCHAYITA | 3 | 20000 |
++------------+-----+--------+
+5 rows in set (0.01 sec)
+4. List all customers in alphabetical order who have loan from „Wadia College‟ branch.
+>> mysql> SELECT C.CName, L.LNo, L.Amount
+-> FROM Customer C
+-> JOIN Borrower B ON C.CName = B.CName
+-> JOIN Loan L ON B.LNo=L.LNo
+-> WHERE L.BName="WADIA COLLEGE"
+-> ORDER BY C.CName;
++----------+-----+--------+
+| CName | LNo | Amount |
++----------+-----+--------+
+| DIKSHA | 1 | 10000 |
+| KAUSTUBH | 5 | 22000 |
+| KESAR | 2 | 15000 |
++----------+-----+--------+
+3 rows in set (0.01 sec)
+5. Display distinct cities of branch.
+>> SELECT DISTINCT BCity FROM Branch;
++--------+
+| BCity |
++--------+
+| NIGDI |
+| PUNE |
+| MUMBAI |
++--------+
+3 rows in set (0.01 sec)
+PRAC 2).
+Consider following Relation
+Account(Acc_no, branch_name,balance)
+Branch(branch_name,branch_city,assets)
+Customer(cust_name,cust_street,cust_city)
+Depositor(cust_name,acc_no)
+Loan(loan_no,branch_name,amount)
+
+Borrower(cust_name,loan_no)
+Create above tables with appropriate constraints like primary
+key, foreign key, not null etc
+SOLUTION:
+1. Find all customers who have both account and loan at bank.
+mysql> SELECT C.CName
+-> FROM Customer C
+-> JOIN Depositor D ON C.CName=D.CName
+-> JOIN Account A ON D.AccNo=A.AccNo
+-> JOIN Borrower B ON C.CName=B.CName
+-> JOIN Loan L ON B.LNo=L.LNo;
++------------+
+| CName |
++------------+
+| DIKSHA |
+| KAUSTUBH |
+| KESAR |
+| SAMRUDDHI |
+| SANCHAYITA |
++------------+
+2. Find all customers who have an account or loan or both at bank.
+mysql> SELECT DISTINCT C.CName
+-> FROM Customer C
+-> LEFT JOIN Depositor D ON C.CName = D.CName
+-> LEFT JOIN Borrower B ON C.CName = B.CName
+-> WHERE D.CName IS NOT NULL OR B.CName IS NOT NULL;
++------------+
+| CName
+
+|
+
++------------+
+| DIKSHA
+
+|
+
+| KAUSTUBH |
+| KESAR
+
+|
+
+| SAMRUDDHI |
+| SANCHAYITA |
++------------+
+5 rows in set (0.01 sec)
+3. Find all customers who have account but no loan at the bank.
+
+>>mysql> SELECT DISTINCT C.CName
+-> FROM Customer C
+-> JOIN Depositor D ON C.CName = D.CName
+-> LEFT JOIN Borrower B ON C.CName = B.CName
+-> WHERE B.CName IS NULL;
+Empty set (0.01 sec)
+4. Find average account balance at „Wadia College‟ branch.
+>> mysql> SELECT AVG(Balance) AS avg_balance FROM Account WHERE BName="WADIA
+COLLEGE";
++-------------+
+| avg_balance |
++-------------+
+| 73333.3333 |
++-------------+
+1 row in set (0.03 sec)
+5. Find no. of depositors at each branch.
+>> mysql> SELECT BName, COUNT(CName) AS number_depositors
+-> FROM Depositor, Branch
+-> GROUP BY BName;
+PRAC 3).
+Consider following Relation
+Account(Acc_no, branch_name,balance)
+Branch(branch_name,branch_city,assets)
+Customer(cust_name,cust_street,cust_city)
+Depositor(cust_name,acc_no)
+Loan(loan_no,branch_name,amount)
+Borrower(cust_name,loan_no)
+Create above tables with appropriate constraints like primary
+key, foreign key, not null etc.
+SOLUTION:
+1. Find the branches where average account balance > 15000.
+>>mysql> SELECT BName
+-> FROM Account
+-> GROUP BY BName
+-> HAVING AVG(Balance)>15000;
++---------------+
+| BName
+|
++---------------+
+| AKURDI
+|
+| SANTA CRUZ |
+| WADIA COLLEGE |
+
++---------------+
+3 rows in set (0.01 sec)
+2. Find number of tuples in customer relation.
+>>mysql> SELECT COUNT(*) AS num_tuples
+-> FROM Customer;
++------------+
+| num_tuples |
++------------+
+|
+5|
++------------+
+1 row in set (0.01 sec)
+3. Calculate total loan amount given by bank.
+>> mysql> SELECT SUM(Amount) as total_amt
+-> FROM Loan;
++-----------+
+| total_amt |
++-----------+
+| 84000 |
++-----------+
+1 row in set (0.00 sec)
+4. Delete all loans with loan amount between 1300 and 1500.
+>> mysql> DELETE FROM Loan
+-> WHERE Amount BETWEEN 1300 AND 1500;
+Query OK, 0 rows affected (0.01 sec)
+5. Find the average account balance at each branch.
+>> mysql> SELECT BName, AVG(Balance) AS avg_acc_bal
+-> FROM Account
+-> GROUP BY BName;
++---------------+-------------+
+| BName
+| avg_acc_bal |
++---------------+-------------+
+| AKURDI
+| 100000.0000 |
+| SANTA CRUZ | 120000.0000 |
+| WADIA COLLEGE | 73333.3333 |
++---------------+-------------+
+3 rows in set (0.00 sec)
+6. Find name of Customer and city where customer name starts with Letter P.
+>> mysql> SELECT CName, CCity
+-> FROM Customer
+-> WHERE CName LIKE "P%";
+Empty set (0.03 sec)
+PRAC 7).
+Consider following Relation
+Account(Acc_no, branch_name,balance)
+Branch(branch_name,branch_city,assets)
+
+Customer(cust_name,cust_street,cust_city)
+Depositor(cust_name,acc_no)
+Loan(loan_no,branch_name,amount)
+Borrower(cust_name,loan_no)
+Execute the following query:
+1. Create a View1 to display List all customers in alphabetical order who have loan from
+Pune_Station branch.
+>> mysql> CREATE VIEW View1 AS
+-> SELECT C.CName
+-> FROM Customer C
+-> JOIN Borrower B ON C.CName=B.CName
+-> JOIN Loan L ON B.LNo=L.LNo
+-> WHERE L.BName="PUNE STATION"
+-> ORDER BY C.CName;
+Query OK, 0 rows affected (0.10 sec)
+2. Create View2 on branch table by selecting any two columns and perform insert update
+delete operations.
+>> mysql> CREATE VIEW View2 AS
+-> SELECT BName,BCity
+-> FROM Branch;
+Query OK, 0 rows affected (0.01 sec)
+mysql> INSERT INTO View2 VALUES("PUNE STATION","PUNE");
+Query OK, 1 row affected (0.02 sec)
+mysql> UPDATE View2
+-> SET BCity="PIMPRI"
+-> WHERE BName="AKURDI";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql> DELETE FROM View2
+-> WHERE BName="PUNE STATION";
+Query OK, 1 row affected (0.03 sec)
+3. Create View3 on borrower and depositor table by selecting any one column from each table
+perform insert update delete operations.
+>>
+4. Create Union of left and right joint for all customers who have an account or loan or both at
+bank.
+>> mysql> CREATE VIEW View4 AS
+-> SELECT A.AccNo, B.LNo, C.CName
+-> FROM Account A
+-> LEFT JOIN Depositor D ON A.AccNo=D.AccNo
+-> RIGHT JOIN Borrower B ON D.CName=B.CName
+-> JOIN Customer C ON B.CName=C.CName;
+
+Query OK, 0 rows affected (0.03 sec)
+5. Create Simple and Unique index.
+>> mysql> CREATE INDEX i_simple ON Account(BName);
+Query OK, 0 rows affected (0.10 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> CREATE UNIQUE INDEX i_unique ON Customer(CName);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+6. Display index Information.
+>> mysql> SHOW INDEX FROM Account WHERE KEY_NAME="i_simple";
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+-----+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality
+| Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression
+|
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+-----+------------+---------+---------------+---------+------------+
+| account |
+1 | i_simple |
+1 | BName
+|A
+|
+3 | NULL | NULL | YES
+| BTREE |
+|
+| YES | NULL
+|
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+-----+------------+---------+---------------+---------+------------+
+1 row in set (0.03 sec)
+mysql> SHOW INDEX FROM Customer WHERE KEY_NAME="i_unique";
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+-----+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality
+| Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression
+|
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+-----+------------+---------+---------------+---------+------------+
+| customer |
+0 | i_unique |
+1 | CName
+|A
+|
+4 | NULL | NULL |
+| BTREE |
+|
+| YES | NULL
+|
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+-----+------------+---------+---------------+---------+------------+
+1 row in set (0.03 sec)
+PRAC 5).
+Consider following Relation
+Employee(emp_id,employee_name,street,city)
+Works(employee_name,company_name,salary)
+Company(company_name,city)
+Manages(employee_name,manager_name)
+Create above tables with appropriate constraints like primary
+key, foreign key, not null etc.
+
+SOLUTION:
+mysql> CREATE DATABASE Emps_Info;
+Query OK, 1 row affected (0.01 sec)
+mysql> USE Emps_Info;
+Database changed
+mysql> CREATE TABLE Company(comp_name varchar(20) primary key,comp_city varc
+har(20));
+Query OK, 0 rows affected (0.05 sec)
+mysql> INSERT INTO Company VALUES("TCS","BANGALORE");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Company VALUES("INFOSYS","PUNE");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Company VALUES("TECHM","MUMBAI");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Company VALUES("JIO","MUMBAI");
+Query OK, 1 row affected (0.03 sec)
+mysql> INSERT INTO Company VALUES("ITC","PUNE");
+Query OK, 1 row affected (0.03 sec)
+mysql> SELECT * FROM Company;
++-----------+-----------+
+| comp_name | comp_city |
++-----------+-----------+
+| INFOSYS | PUNE |
+| ITC
+| PUNE |
+| JIO
+| MUMBAI |
+| TCS
+| BANGALORE |
+| TECHM | MUMBAI |
++-----------+-----------+
+5 rows in set (0.00 sec)
+mysql> SELECT * FROM Works;
++----------+-----------+------------+
+| emp_name | comp_name | emp_salary |
++----------+-----------+------------+
+| AADYA | JIO
+| 40000 |
+| ARYAN | TECHM | 10000 |
+| KEDAR | INFOSYS | 15000 |
+| ROHAN | TECHM | 30000 |
+| SAKSHI | TECHM | 25000 |
+| SHRI | ITC
+| 25000 |
+| SNEHA | TCS
+| 10000 |
+
++----------+-----------+------------+
+7 rows in set (0.06 sec)
+mysql> CREATE TABLE Employee(emp_id int primary key,emp_name varchar(20),emp
+_street varchar(20),emp_city varchar(20), foreign key(emp_name) references W
+orks(emp_name));
+Query OK, 0 rows affected (0.04 sec)
+mysql> INSERT INTO Employee VALUES(101,"AADYA","CHURCH ROAD","BANGALORE");
+Query OK, 1 row affected (0.02 sec)
+mysql> INSERT INTO Employee VALUES(102,"ROHAN","CAMP","PUNE");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Employee VALUES(103,"SAKSHI","STATION","PUNE");
+Query OK, 1 row affected (0.03 sec)
+mysql> INSERT INTO Employee VALUES(201,"ARYAN","NAVI MUMBAI","MUMBAI");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Employee VALUES(202,"KEDAR","SANTA CRUZ","MUMBAI");
+Query OK, 1 row affected (0.02 sec)
+mysql> INSERT INTO Employee VALUES(301,"SHRI","MARKET ROAD","BANGALORE");
+Query OK, 1 row affected (0.03 sec)
+mysql> INSERT INTO Employee VALUES(302,"SNEHA","PETH","PUNE");
+Query OK, 1 row affected (0.01 sec)
+mysql> SELECT * FROM Employee;
++--------+----------+--------------+-----------+
+| emp_id | emp_name | emp_street | emp_city |
++--------+----------+--------------+-----------+
+| 101 | AADYA | CHURCH ROAD | BANGALORE |
+| 102 | ROHAN | CAMP
+| PUNE |
+| 103 | SAKSHI | STATION | PUNE |
+| 201 | ARYAN | NAVI MUMBAI | MUMBAI |
+| 202 | KEDAR | SANTA CRUZ | MUMBAI |
+| 301 | SHRI | MARKET ROAD | BANGALORE |
+| 302 | SNEHA | PETH
+| PUNE |
++--------+----------+--------------+-----------+
+7 rows in set (0.00 sec)
+mysql> CREATE TABLE Manages(emp_name varchar(20),manager_name varchar(20), foreign
+key(emp_name) references Works(emp_name));
+Query OK, 0 rows affected (0.03 sec)
+mysql> INSERT INTO Manages VALUES("AADYA","MR.KAMBLE");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO Manages VALUES("SAKSHI","MRS.PATIL");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Manages VALUES("SHRI","MRS.SAXENA");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Manages VALUES("ROHAN","MR.PATIL");
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO Manages VALUES("KEDAR","MR.SINGH");
+Query OK, 1 row affected (0.03 sec)
+mysql> SELECT * FROM Manages;
++----------+--------------+
+| emp_name | manager_name |
++----------+--------------+
+| AADYA | MR.KAMBLE |
+| SAKSHI | MRS.PATIL |
+| SHRI | MRS.SAXENA |
+| ROHAN | MR.PATIL |
+| KEDAR | MR.SINGH |
++----------+--------------+
+5 rows in set (0.00 sec)
+1. Find the names of all employees who work for „TCS‟.
+>> mysql> SELECT emp_name
+-> FROM Works
+-> WHERE comp_name="TCS";
++----------+
+| emp_name |
++----------+
+| SNEHA |
++----------+
+1 row in set (0.01 sec)
+mysql> SELECT e.emp_name
+-> FROM Employee e
+-> JOIN Works w ON e.emp_name=w.emp_name
+-> WHERE w.comp_name="TCS";
++----------+
+| emp_name |
++----------+
+| SNEHA |
++----------+
+1 row in set (0.03 sec)
+2. Find the names and company names of all employees sorted in ascending order of
+company name and descending order of employee names of that company.
+>> mysql> SELECT emp_name, comp_name
+
+-> FROM Works
+-> ORDER BY emp_name ASC,comp_name DESC;
++----------+-----------+
+| emp_name | comp_name |
++----------+-----------+
+| AADYA | JIO
+|
+| ARYAN | TECHM |
+| KEDAR | INFOSYS |
+| ROHAN | TECHM |
+| SAKSHI | TECHM |
+| SHRI | ITC
+|
+| SNEHA | TCS
+|
++----------+-----------+
+mysql> SELECT e.emp_name,w.comp_name
+-> FROM Employee e
+-> JOIN Works w ON e.emp_name=w.emp_name
+-> ORDER BY e.emp_id ASC,w.comp_name DESC;
++----------+-----------+
+| emp_name | comp_name |
++----------+-----------+
+| AADYA | JIO
+|
+| ROHAN | TECHM |
+| SAKSHI | TECHM |
+| ARYAN | TECHM |
+| KEDAR | INFOSYS |
+| SHRI | ITC
+|
+| SNEHA | TCS
+|
++----------+-----------+
+7 rows in set (0.01 sec)
+3. Change the city of employee working with InfoSys to „Bangalore‟
+>> mysql> UPDATE Employee
+-> SET emp_city="BANGALORE"
+-> WHERE emp_name IN (SELECT emp_name FROM Works WHERE comp_name = 'Info
+Sys');
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql> SELECT * FROM Employee;
++--------+----------+--------------+-----------+
+| emp_id | emp_name | emp_street | emp_city |
++--------+----------+--------------+-----------+
+| 101 | AADYA | CHURCH ROAD | BANGALORE |
+| 102 | ROHAN | CAMP
+| PUNE |
+| 103 | SAKSHI | STATION | PUNE |
+| 201 | ARYAN | NAVI MUMBAI | MUMBAI |
+| 202 | KEDAR | SANTA CRUZ | BANGALORE |
+| 301 | SHRI | MARKET ROAD | BANGALORE |
+| 302 | SNEHA | PETH
+| PUNE |
+
+4.
+
+5.
+
+6.
+
+7.
+
+8.
+
++--------+----------+--------------+-----------+
+7 rows in set (0.00 sec)
+Find the names, street address, and cities of residence for all employees who work for
+'TechM' and earn more than $10,000.
+>> mysql> SELECT e.emp_name,e.emp_city,e.emp_street
+-> FROM Employee e
+-> JOIN Works w ON e.emp_name=w.emp_name
+-> WHERE w.comp_name="TECHM" AND w.emp_salary>10000;
++----------+----------+------------+
+| emp_name | emp_city | emp_street |
++----------+----------+------------+
+| ROHAN | PUNE | CAMP
+|
+| SAKSHI | PUNE | STATION |
++----------+----------+------------+
+2 rows in set (0.03 sec)
+Add Column Asset to Company table.
+>>mysql> ALTER TABLE Company
+-> ADD COLUMN asset int;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+Find the names of all employees who earn more than the average salary of all employees
+of their company. Assume that all people work for at most one company.
+>>
+Change name of table Manages to Management.
+>>mysql> ALTER TABLE Manages
+-> RENAME TO Management;
+Query OK, 0 rows affected (0.03 sec)
+Create Simple and Unique index on employee table.
+>> mysql> CREATE INDEX i_simple ON Employee(emp_id);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+
+mysql> CREATE UNIQUE INDEX i_unique ON Employee(emp_name);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+9. Display index Information
+>> mysql> SHOW INDEX FROM Employee WHERE key_name="i_simple";
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+-------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation |
+Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
+Visible | Expression |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+-------+------+------------+---------+---------------+---------+------------+
+| employee |
+1 | i_simple |
+1 | emp_id | A
+|
+7 | NULL | NULL | | BTREE |
+|
+| YES | NULL
+|
+
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+-------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.06 sec)
+mysql> SHOW INDEX FROM Employee WHERE key_name="i_unique";
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+-------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation |
+Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
+Visible | Expression |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+-------+------+------------+---------+---------------+---------+------------+
+| employee |
+0 | i_unique |
+1 | emp_name | A
+|
+7 | NULL | NULL | YES | BTREE |
+|
+| YES | NULL
+|
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+-------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.01 sec)
+PRAC 8)
+create table companies(compid varchar(20) primary key,cost int,year varchar(20));
+Query OK, 0 rows affected (0.08 sec)
+create table orders(compid varchar(20),domain varchar(20),quantity int,foreign key (compid)
+references companies(compid));
+Query OK, 0 rows affected (0.08 sec)
+mysql> insert into companies values('a1',13200,'2022');
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into orders values('a1','uiux',12);
+Query OK, 1 row affected (0.02 sec)
+mysql> select cost,domain,quantity from companies inner join orders on
+companies.compid=orders.compid;
++-------+--------+----------+
+| cost | domain | quantity |
++-------+--------+----------+
+| 13200 | uiux |
+12 |
++-------+--------+----------+
+1 row in set (0.00 sec)
+mysql> insert into companies values('a2',10000,'2022');
+Query OK, 1 row affected (0.03 sec)
+mysql> select cost,domain,quantity from companies left join orders on
+companies.compid=orders.compid;
++-------+--------+----------+
+| cost | domain | quantity |
++-------+--------+----------+
+
+| 13200 | uiux |
+12 |
+| 10000 | NULL | NULL |
++-------+--------+----------+
+2 rows in set (0.00 sec)
+mysql> select cost,domain,quantity from companies right join orders on
+companies.compid=orders.compid;
++-------+--------+----------+
+| cost | domain | quantity |
++-------+--------+----------+
+| 13200 | uiux |
+12 |
++-------+--------+----------+
+1 row in set (0.00 sec)
+mysql> select cost,domain,quantity from companies right join orders on
+companies.compid=orders.compid union select cost ,domain
+,quantity from companies left join orders on companies.compid=orders.compid;
++-------+--------+----------+
+| cost | domain | quantity |
++-------+--------+----------+
+| 13200 | uiux |
+12 |
+| 10000 | NULL | NULL |
++-------+--------+----------+
+2 rows in set (0.00 sec)
+mysql> create view view7 as select companies.compid ,orders.quantity from
+companies,orders where companies.compid=orders.compid;
+Query OK, 0 rows affected (0.02 sec)
+mysql> select * from view7;
++--------+----------+
+| compid | quantity |
++--------+----------+
+| a1 |
+12 |
++--------+----------+
+1 row in set (0.01 sec)
+PRAC 4)
+mysql> create table custmaster(custno int primary key,custname varchar(20),custaddress
+varchar(20));
+Query OK, 0 rows affected (0.05 sec)
+mysql> create table orders(orderno int primary key,custno int,orderdate date,quantityorder
+int,foreign key (custno) references custmaster(custno));
+Query OK, 0 rows affected (0.06 sec)
+mysql> create table product(productno int primary key,productname varchar(20),orderno
+int,foreign key (orderno) references orders(orderno));
+
+Query OK, 0 rows affected (0.09 sec)
+mysql> INSERT INTO custmaster VALUES (1, 'C1001', 'Address1');
+Query OK, 1 row affected (0.02 sec)
+mysql> INSERT INTO custmaster VALUES (2, 'C1002', 'Address2');
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO orders VALUES (101, 1, '2023-01-01', 10);
+Query OK, 1 row affected (0.01 sec)
+mysql> INSERT INTO orders VALUES (102, 2, '2023-02-01', 15);
+Query OK, 1 row affected (0.02 sec)
+mysql> INSERT INTO Product VALUES (201, 'Product1', 101);
+Query OK, 1 row affected (0.02 sec)
+mysql> INSERT INTO Product VALUES (202, 'Product2', 102);
+Query OK, 1 row affected (0.02 sec)
+mysql> select custname from custmaster where custname like '_1%';
++----------+
+| custname |
++----------+
+| C1001 |
+| C1002 |
++----------+
+2 rows in set (0.01 sec)
+mysql> SELECT *FROM custmaster WHERE custaddress IN ('Address2','Address1');
++--------+----------+-------------+
+| custno | custname | custaddress |
++--------+----------+-------------+
+| 1 | C1001 | Address1 |
+| 2 | C1002 | Address2 |
++--------+----------+-------------+
+2 rows in set (0.01 sec)
+mysql> SELECT custmaster.custname, product.productname FROM custmaster JOIN orders
+ON custmaster.custno = orders.custno JOIN product ON orders.orderno = product.orderno;
++----------+-------------+
+| custname | productname |
++----------+-------------+
+| C1001 | Product1 |
+| C1002 | Product2 |
++----------+-------------+
+2 rows in set (0.00 sec)
+mysql> select * from custmaster join orders on custmaster.custno=orders.custno;
+
++--------+----------+-------------+---------+--------+------------+---------------+
+| custno | custname | custaddress | orderno | custno | orderdate | quantityorder |
++--------+----------+-------------+---------+--------+------------+---------------+
+| 1 | C1001 | Address1 | 101 | 1 | 2023-01-01 |
+10 |
+| 2 | C1002 | Address2 | 102 | 2 | 2023-02-01 |
+15 |
++--------+----------+-------------+---------+--------+------------+---------------+
+2 rows in set (0.00 sec)
+mysql> select * from custmaster left join orders on custmaster.custno=orders.custno;
++--------+----------+-------------+---------+--------+------------+---------------+
+| custno | custname | custaddress | orderno | custno | orderdate | quantityorder |
++--------+----------+-------------+---------+--------+------------+---------------+
+| 1 | C1001 | Address1 | 101 | 1 | 2023-01-01 |
+10 |
+| 2 | C1002 | Address2 | 102 | 2 | 2023-02-01 |
+15 |
++--------+----------+-------------+---------+--------+------------+---------------+
+2 rows in set (0.00 sec)
+mysql> select * from custmaster right join orders on custmaster.custno=orders.custno;
++--------+----------+-------------+---------+--------+------------+---------------+
+| custno | custname | custaddress | orderno | custno | orderdate | quantityorder |
++--------+----------+-------------+---------+--------+------------+---------------+
+| 1 | C1001 | Address1 | 101 | 1 | 2023-01-01 |
+10 |
+| 2 | C1002 | Address2 | 102 | 2 | 2023-02-01 |
+15 |
++--------+----------+-------------+---------+--------+------------+---------------+
+2 rows in set (0.00 sec)
+mysql> select custmaster.custname,product.productname,orders.quantityorder from
+custmaster join orders on custmaster.custno=orders.custno join product on
+orders.orderno=product.orderno;
++----------+-------------+---------------+
+| custname | productname | quantityorder |
++----------+-------------+---------------+
+| C1001 | Product1 |
+10 |
+| C1002 | Product2 |
+15 |
++----------+-------------+---------------+
+2 rows in set (0.01 sec)
+
+
